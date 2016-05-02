@@ -1,0 +1,16 @@
+---
+moodle_db_name:     secret
+moodle_db_username: secret
+moodle_db_password: secret
+moodle_location:    /var/www
+moodle_dataroot:    /srv/moodledata
+moodle_version:     secret
+moodle_config_dir:  /srv/manifest
+moodle_install_method: manifest
+moodle_manifest: { type: local }
+moodle_passwordsaltmain: secret
+moodle_assemble_only: true
+
+moodle_tasc_extra_params:
+  - name: github_access_token
+    value: "{{ github_access_token }}"

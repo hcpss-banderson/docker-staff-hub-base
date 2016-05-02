@@ -1,0 +1,17 @@
+---
+simplesaml_install_symlink: simplesaml
+simplesaml_authsources:
+  - name: secret
+    idp: secret
+
+simplesaml_metadata:
+  - entityid:       secret
+    metadata_set:   secret
+    ssos:
+      binding:      secret
+      location:     secret
+    slo:
+      binding:      secret
+      location:     secret
+    certdata:       secret
+    name_id_format: secret

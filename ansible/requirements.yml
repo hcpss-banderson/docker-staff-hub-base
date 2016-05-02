@@ -1,0 +1,6 @@
+---
+- src: https://github.com/hcpss-banderson/ansible-role-simplesaml
+  name: hcpss.simplesaml
+
+- src: https://github.com/hcpss-banderson/ansible-role-moodle
+  name: hcpss.moodle

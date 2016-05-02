@@ -1,0 +1,42 @@
+---
+- name: Staff Hub Web Base
+  hosts: all
+  become: yes
+  
+  vars_files:
+    - vars/simplesaml.yml
+    - vars/moodle.yml
+  
+  roles:
+    - hcpss.simplesaml
+    - hcpss.moodle
+    
+  tasks:
+    - apt: update_cache=yes
+    
+    - name: Configure postfix deb package
+      debconf: 
+        name: postfix
+        question: "{{ item.question }}"
+        value: "{{ item.answer }}"
+        vtype: string
+      with_items:
+        - question: postfix/mailname
+          answer: "staff.hcpss.org"
+        - question: postfix/main_mailer_type
+          answer: "Internet Site"
+      
+    - name: Install postfix and rsyslog
+      apt: name={{ item }}
+      with_items:
+        - postfix
+        - rsyslog
+      
+    - name: Configure postfix
+      template: src=templates/main.cf.j2 dest=/etc/postfix/main.cf
+    
+    - name: Make a symlink for simplesaml
+      file: 
+        src: "{{ simplesaml_install_location }}/{{ simplesaml_install_symlink }}/www"
+        dest: "/var/www/simplesaml"
+        state: link
