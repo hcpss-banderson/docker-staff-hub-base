@@ -16,18 +16,15 @@ ADD manifest /srv/manifest
 # Acceptable modes are "dev", "stage" and "prod".
 RUN apt-get install -y git \
   && ansible-galaxy install -r /srv/provisioning/requirements.yml \
-  && ansible-playbook /srv/provisioning/provision.yml -v -c local \
-  --extra-vars="github_access_token=$GITHUB_TOKEN"
+  && ansible-playbook /srv/provisioning/provision.yml -c local \
+  --extra-vars="github_access_token=${GITHUB_TOKEN}"
 
 # Remove ansible and provisioning locations, which may contain secrets
 RUN rm -rf /srv/provisioning && rm -rf /srv/manifest
 
 COPY docker-entrypoint.sh /entrypoint-staff.sh
 
-VOLUME ["/var/www"]
-
 ENTRYPOINT ["/entrypoint-staff.sh"]
 
 EXPOSE 80
 CMD ["apache2-foreground"]
-  
